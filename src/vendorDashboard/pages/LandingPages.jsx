@@ -14,7 +14,7 @@ const LandingPages = () => {
   const [showFirm, setShowFirm] = useState(false)
   const [showProduct, setShowProduct] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
-  const [allProducts,setShowAllProducts] = useState(false)
+  const [showAllProducts,setShowAllProducts] = useState(false)
   const [showLogout, setShowLogout] = useState(false);
   const [showFirmTitle, setShowFirmTitle] =useState(true)
 
@@ -22,15 +22,19 @@ const LandingPages = () => {
     const token = localStorage.getItem('loginToken');
     if(token){
       setShowLogout(true)
+      setShowWelcome(true)
     }
   }, [])
 
   useEffect(()=>{
     const firmName = localStorage.getItem('firmName');
-    if(firmName){
+    const firmId =localStorage.getItem('firmId')
+    if(firmName || firmId){
       setShowFirmTitle(false)
+      setShowWelcome(true)
     }
   },[])
+
   const showLogoutHandler =()=>{
     confirm("Are you sure you want to logout")
     localStorage.removeItem('loginToken');
@@ -38,6 +42,7 @@ const LandingPages = () => {
     localStorage.removeItem('firmName');
     setShowLogout(false)
     setShowFirmTitle(true)
+    setShowWelcome(false)
   }
 
   const showLoginForm = () => {
@@ -97,7 +102,7 @@ const LandingPages = () => {
     setShowAllProducts(false);
   }
 
-  const showAllProducts = () => {
+  const showAllProductsForm = () => {
     if(showLogout){
       setShowAllProducts(true)
       setShowWelcome(false);
@@ -119,14 +124,14 @@ const LandingPages = () => {
                     showLogout={showLogout} showLogoutHandler={showLogoutHandler} />
             <div className="collectionSection">
               <SideBar showAddFirm={showAddFirm} showProductForm={showProductForm} 
-                        showAllProducts={showAllProducts} showFirmTitle={showFirmTitle} />
+                        showAllProductsForm={showAllProductsForm} showFirmTitle={showFirmTitle} />
               {showLogin && <VendorLogin showWelcomeForm={showWelcomeForm} />}
               {showRegister && <VendorRegister showLoginForm={showLoginForm} />}
               {showFirm && showLogout && <AddFirm/>}
               {showProduct && showLogout && <AddProduct/>}              
-              {allProducts && showLogout &&  <AllProducts />}
+              {showAllProducts && showLogout &&  <AllProducts />}
               {showWelcome && <Welcome /> }
-            </div>           
+            </div>            
         </section>
     </>
   )
