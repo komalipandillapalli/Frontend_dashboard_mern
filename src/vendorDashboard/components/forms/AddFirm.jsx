@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { API_URL } from '../../data/apiPath';
-import { ThreeCircles } from 'react-loader-spinner';
 
 const AddFirm = () => {
   const [firmName, setFirmName] = useState('');
@@ -9,7 +8,6 @@ const AddFirm = () => {
   const [region, setRegion] = useState([]);
   const [offer, setOffer] = useState('');
   const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false)
 
   const onChangeCategory =event => {
     const value = event.target.value;
@@ -36,7 +34,6 @@ const AddFirm = () => {
 
 const onSubmitFirmHandler = async(event) => {
   event.preventDefault();
-  setLoading(true);
   try {
     const token = localStorage.getItem('loginToken');
     if (!token){
@@ -92,27 +89,12 @@ const onSubmitFirmHandler = async(event) => {
   } catch (error) {
     console.error("Failed to Add Firm");
 
-  } finally{
-    setLoading(false)
-  }
+  } 
 }
 
   return (
     
     <div className="addFirmSection">
-      {loading && <div>
-        <ThreeCircles
-          visible={loading}
-          height={100}
-          width={100}
-          color="#4fa94d"
-          ariaLabel="three-circles-loading"
-          wrapperStyle={{}}
-          wrapperClass="" />
-        </div> }
-
-        {!loading && 
-
         <form className='firmSection' onSubmit={onSubmitFirmHandler}>
             <h2>Add Firm</h2>
 
@@ -169,7 +151,7 @@ const onSubmitFirmHandler = async(event) => {
             <div>
                 <button type='submit'>Submit</button>
             </div> 
-        </form> }
+        </form> 
     </div>
 
   )
