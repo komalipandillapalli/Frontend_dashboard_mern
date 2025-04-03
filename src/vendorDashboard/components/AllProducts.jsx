@@ -60,6 +60,7 @@ const AllProducts = () => {
                         </thead>
                         <tbody>
                             {products.map(eachproduct => (
+                                <>
                                 <tr key={eachproduct._id}>
                                     <td>{eachproduct.productName}</td>
                                     <td>{eachproduct.price}</td>
@@ -73,6 +74,7 @@ const AllProducts = () => {
                                         <button onClick={()=>onDeleteProduct(eachproduct._id)} >Delete</button>
                                     </td>
                                 </tr>
+                                </>
                             ))}
                         </tbody>
                     </table>

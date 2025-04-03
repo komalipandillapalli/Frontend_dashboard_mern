@@ -7,7 +7,7 @@ const AddProduct = () => {
   const [category, setCategory] =useState([]);
   const [bestSeller, setBestSeller] =useState(false);
   const [description, setDescription] =useState('');
-  const [file, setFile] =useState(null);
+  const [image, setImage] =useState(null);
 
   const onChangeCategory =event=>{
     const value = event.target.value;
@@ -20,7 +20,7 @@ const AddProduct = () => {
 
   const onChangeImageUpload =event=>{
     const selectedImage=event.target.files[0]
-    setFile(selectedImage)
+    setImage(selectedImage)
   }
 
   const onChangeBestSeller =event =>{
@@ -41,7 +41,7 @@ const AddProduct = () => {
       const formData=new FormData();
       formData.append('productName', productName);
       formData.append('price', price);
-      formData.append('image', file);
+      formData.append('image', image);
       formData.append('bestSeller',bestSeller)
       formData.append('description', description);
       category.forEach(item=>{
@@ -58,13 +58,15 @@ const AddProduct = () => {
       if(response.ok){
         console.log(data);
         alert('prodtt addedd');
+      }
+
         setProductName('');
         setPrice('');
         setBestSeller(false);
         setCategory([]);
         setDescription('');
-        setFile(null);
-      }
+        setImage(null);
+      
       
     } catch (error) {
       console.log(data.message);

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { API_URL } from '../../data/apiPath';
+import { ThreeCircles } from 'react-loader-spinner';
 
 const AddFirm = () => {
   const [firmName, setFirmName] = useState('');
@@ -7,7 +8,8 @@ const AddFirm = () => {
   const [category, setCategory] = useState([]);
   const [region, setRegion] = useState([]);
   const [offer, setOffer] = useState('');
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   const onChangeCategory =event => {
     const value = event.target.value;
@@ -34,6 +36,7 @@ const AddFirm = () => {
 
 const onSubmitFirmHandler = async(event) => {
   event.preventDefault();
+  setLoading(true);
   try {
     const token = localStorage.getItem('loginToken');
     if (!token){
@@ -53,26 +56,26 @@ const onSubmitFirmHandler = async(event) => {
       formData.append('region', item)
     })
 
-    const handler = {
+    const response = await fetch(`${API_URL}/firm/add-firm`, {
       method:'POST',
       headers:{
         'token' : `${token}`
       },
       body:formData
-      }
-
-    const response = await fetch(`${API_URL}/firm/add-firm`, handler);
+      });
     const data = await response.json(); 
 
     if(response.ok){
       console.log(data);
-      alert("Firm added successfully");
+      
       setFirmName('');
       setArea('');
       setOffer('');
       setCategory([]);
       setRegion([]);
-      setFile('');
+      setFile(null);
+      alert("Firm added successfully");
+
     }else if(data.message==="vendor can have only one firm"){
       alert("Firm Exists: only one firm can be added to vendor")
     }else{
@@ -81,17 +84,35 @@ const onSubmitFirmHandler = async(event) => {
 
 
     const firmId = data.firmId;
+    const vendorRestuarant = data.vendorFirmName
+
     localStorage.setItem('firmId', firmId);
-    
+    localStorage.setItem('firmName', vendorRestuarant)
+    window.location.reload()
   } catch (error) {
     console.error("Failed to Add Firm");
 
+  } finally{
+    setLoading(false)
   }
 }
 
   return (
     
     <div className="addFirmSection">
+      {loading && <div>
+        <ThreeCircles
+          visible={loading}
+          height={100}
+          width={100}
+          color="#4fa94d"
+          ariaLabel="three-circles-loading"
+          wrapperStyle={{}}
+          wrapperClass="" />
+        </div> }
+
+        {!loading && 
+
         <form className='firmSection' onSubmit={onSubmitFirmHandler}>
             <h2>Add Firm</h2>
 
@@ -148,8 +169,9 @@ const onSubmitFirmHandler = async(event) => {
             <div>
                 <button type='submit'>Submit</button>
             </div> 
-        </form>
+        </form> }
     </div>
+
   )
 }
 
