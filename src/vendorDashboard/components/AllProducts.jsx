@@ -30,10 +30,10 @@ const AllProducts = () => {
         
 
            const data= await response.json()
-           console.log(data);
+           console.log(data);  
 
            if(response.ok){
-            setProducts(products.filter(eachproduct => eachproduct._id !== productId));
+            setProducts(products.filter(eachProduct => eachProduct._id !== productId));
             confirm("are you sure, you want to delete");
             alert("Product deleted successfully");
            }
@@ -59,19 +59,19 @@ const AllProducts = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {products.map(eachproduct => (
+                            {products.map(eachProduct => (
                                 <>
-                                <tr key={eachproduct._id}>
-                                    <td>{eachproduct.productName}</td>
-                                    <td>{eachproduct.price}</td>
+                                <tr key={eachProduct._id}>
+                                    <td>{eachProduct.productName}</td>
+                                    <td>{eachProduct.price}</td>
                                     <td>
-                                        {eachproduct.image && (
-                                            <img src={`${API_URL}/uploads/${eachproduct.image}`} 
-                                                 alt={eachproduct.productName} className='eachImage' />
+                                        {eachProduct.image && (
+                                            <img src={`${API_URL}/uploads/${eachProduct.image}`} 
+                                                 alt={eachProduct.productName} className='eachImage' />
                                         )}
                                     </td>
                                     <td>
-                                        <button onClick={()=>onDeleteProduct(eachproduct._id)} >Delete</button>
+                                        <button onClick={()=>onDeleteProduct(eachProduct._id)} >Delete</button>
                                     </td>
                                 </tr>
                                 </>

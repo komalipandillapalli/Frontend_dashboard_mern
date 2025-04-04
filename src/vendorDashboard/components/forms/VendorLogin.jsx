@@ -40,7 +40,6 @@ const VendorLogin = ({showWelcomeForm}) => {
         const vendorFirmId = vendorData.vendorFirmId;
         const vendorFirmName=vendorData.vendorFirmName;
         localStorage.setItem('firmId', vendorFirmId);
-        localStorage.setItem('firmName', vendorFirmName);
       }
 
     } catch (error) {
